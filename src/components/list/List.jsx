@@ -5,9 +5,14 @@ import "./styles.css";
 const List = () => {
   const [repositories, setRepositories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const url = 'https://api.github.com/users/devpass-tech/repos'
 
   const fetchRepositories = async () => {
-    // TODO
+    setIsLoading(true)
+    fetch(url).then(response => response.json()).then(data => {
+      setRepositories(data)
+      setIsLoading(false)
+    })
   };
 
   return (
@@ -20,7 +25,7 @@ const List = () => {
         ( 
           <ListGroup className="repositoriesList">
 
-          { /* TODO */ }
+          {repositories.map(repository => <ListGroup.Item>{repository.name}</ListGroup.Item>  )}
           
           </ListGroup> )}
       <Button data-testid="button" className="button" variant="primary" onClick={() => fetchRepositories()}>Fetch repositories</Button>
